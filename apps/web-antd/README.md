@@ -57,3 +57,7 @@
 │           ├── pest-control     // 病虫害防治
 │           └── sustainability   // 可持续农业
 ```
+
+## 参考项目
+
+[ruoyi-plus-vben5](https://gitee.com/dapppp/ruoyi-plus-vben5)
