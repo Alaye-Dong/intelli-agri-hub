@@ -7,7 +7,7 @@ import { Page } from '@vben/common-ui';
 import { Button, Image, message, Switch, Tag } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getExampleTableApi } from '#/api';
+import { getExampleTableApi } from '#/api/system/users';
 
 interface RowType {
   category: string;
