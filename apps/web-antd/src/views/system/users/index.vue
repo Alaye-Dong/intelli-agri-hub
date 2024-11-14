@@ -1,66 +1,110 @@
 <script lang="ts" setup>
+import type { VbenFormProps } from '#/adapter/form';
+import type { VxeGridProps } from '#/adapter/vxe-table';
+
 import { Page } from '@vben/common-ui';
 
-import { Button, Card, message, notification, Space } from 'ant-design-vue';
+import { message } from 'ant-design-vue';
 
-type NotificationType = 'error' | 'info' | 'success' | 'warning';
+import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { getExampleTableApi } from '#/api';
 
-function info() {
-  message.info('How many roads must a man walk down');
+interface RowType {
+  category: string;
+  color: string;
+  id: string;
+  price: string;
+  productName: string;
+  releaseDate: string;
 }
 
-function error() {
-  message.error({
-    content: 'Once upon a time you dressed so fine',
-    duration: 2500,
-  });
-}
+const formOptions: VbenFormProps = {
+  // 默认展开
+  collapsed: false,
+  schema: [
+    {
+      component: 'Input',
+      defaultValue: '1',
+      fieldName: 'category',
+      label: 'Category',
+    },
+    {
+      component: 'Input',
+      fieldName: 'productName',
+      label: 'ProductName',
+    },
+    {
+      component: 'Input',
+      fieldName: 'price',
+      label: 'Price',
+    },
+    {
+      component: 'Select',
+      componentProps: {
+        allowClear: true,
+        options: [
+          {
+            label: 'Color1',
+            value: '1',
+          },
+          {
+            label: 'Color2',
+            value: '2',
+          },
+        ],
+        placeholder: '请选择',
+      },
+      fieldName: 'color',
+      label: 'Color',
+    },
+    {
+      component: 'DatePicker',
+      fieldName: 'datePicker',
+      label: 'Date',
+    },
+  ],
+  // 控制表单是否显示折叠按钮
+  showCollapseButton: true,
+  // 按下回车时是否提交表单
+  submitOnEnter: false,
+};
 
-function warning() {
-  message.warning('How many roads must a man walk down');
-}
-function success() {
-  message.success('Cause you walked hand in hand With another man in my place');
-}
+const gridOptions: VxeGridProps<RowType> = {
+  checkboxConfig: {
+    highlight: true,
+    labelField: 'name',
+  },
+  columns: [
+    { title: '序号', type: 'seq', width: 50 },
+    { align: 'left', title: 'Name', type: 'checkbox', width: 100 },
+    { field: 'category', title: 'Category' },
+    { field: 'color', title: 'Color' },
+    { field: 'productName', title: 'Product Name' },
+    { field: 'price', title: 'Price' },
+    { field: 'releaseDate', formatter: 'formatDateTime', title: 'Date' },
+  ],
+  height: 'auto',
+  keepSource: true,
+  pagerConfig: {},
+  proxyConfig: {
+    ajax: {
+      query: async ({ page }, formValues) => {
+        message.success(`Query params: ${JSON.stringify(formValues)}`);
+        return await getExampleTableApi({
+          page: page.currentPage,
+          pageSize: page.pageSize,
+          ...formValues,
+        });
+      },
+    },
+  },
+};
 
-function notify(type: NotificationType) {
-  notification[type]({
-    duration: 2500,
-    message: '说点啥呢',
-    type,
-  });
-}
+const [Grid] = useVbenVxeGrid({ formOptions, gridOptions });
 </script>
 
 <template>
-  <Page
-    description="支持多语言，主题功能集成切换等"
-    title="Ant Design Vue组件使用演示"
-  >
-    <Card class="mb-5" title="按钮">
-      <Space>
-        <Button>Default</Button>
-        <Button type="primary"> Primary </Button>
-        <Button> Info </Button>
-        <Button danger> Error </Button>
-      </Space>
-    </Card>
-    <Card class="mb-5" title="Message">
-      <Space>
-        <Button @click="info"> 信息 </Button>
-        <Button danger @click="error"> 错误 </Button>
-        <Button @click="warning"> 警告 </Button>
-        <Button @click="success"> 成功 </Button>
-      </Space>
-    </Card>
-
-    <Card class="mb-5" title="Notification">
-      <Space>
-        <Button @click="notify('info')"> 信息 </Button>
-        <Button danger @click="notify('error')"> 错误 </Button>
-        <Button @click="notify('warning')"> 警告 </Button>
-        <Button @click="notify('success')"> 成功 </Button>
-      </Space>
-    </Card>
+  <Page auto-content-height>
+    <Grid />
   </Page>
 </template>
