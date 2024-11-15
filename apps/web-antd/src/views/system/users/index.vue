@@ -7,7 +7,7 @@ import { Page } from '@vben/common-ui';
 import { Button, Image, message, Switch, Tag } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getExampleTableApi } from '#/api/system/users';
+import { userList } from '#/api/system/users';
 
 interface RowType {
   category: string;
@@ -146,10 +146,11 @@ const gridOptions: VxeGridProps<RowType> = {
   pagerConfig: {},
   proxyConfig: {
     ajax: {
-      query: async ({ page }) => {
-        return await getExampleTableApi({
-          page: page.currentPage,
+      query: async ({ page }, formValues = {}) => {
+        return await userList({
+          pageNum: page.currentPage,
           pageSize: page.pageSize,
+          ...formValues,
         });
       },
     },

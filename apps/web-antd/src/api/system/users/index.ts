@@ -1,18 +1,18 @@
+import type { User } from './model';
+
+import type { PageQuery, PageResult } from '#/api/common';
+
 import { requestClient } from '#/api/request';
 
-export namespace DemoTableApi {
-  export interface PageFetchParams {
-    [key: string]: any;
-    page: number;
-    pageSize: number;
-  }
+enum API {
+  userList = '/system/user/list',
 }
 
 /**
- * 获取示例表格数据
+ *  获取用户列表
+ * @param params
+ * @returns User
  */
-async function getExampleTableApi(params: DemoTableApi.PageFetchParams) {
-  return requestClient.get('/table/list', { params });
+export function userList(params?: PageQuery) {
+  return requestClient.get<PageResult<User>>(API.userList, { params });
 }
-
-export { getExampleTableApi };
