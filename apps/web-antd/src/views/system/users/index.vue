@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { VbenFormProps } from '#/adapter/form';
 import type { VxeGridProps } from '#/adapter/vxe-table';
+import type { User } from '#/api/system/users/model';
 
 import { Page } from '@vben/common-ui';
 
@@ -9,18 +10,7 @@ import { Button, Image, message, Switch, Tag } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { userList } from '#/api/system/users';
 
-interface RowType {
-  category: string;
-  color: string;
-  id: string;
-  imageUrl: string;
-  open: boolean;
-  price: string;
-  productName: string;
-  releaseDate: string;
-  status: 'error' | 'success' | 'warning';
-}
-
+// 搜索表单
 const formOptions: VbenFormProps = {
   // 默认展开
   collapsed: false,
@@ -32,7 +22,6 @@ const formOptions: VbenFormProps = {
       componentProps: {
         placeholder: 'Please enter category',
       },
-      defaultValue: '1',
       fieldName: 'category',
       label: 'Category',
     },
@@ -92,53 +81,60 @@ function onSubmit(values: Record<string, any>) {
   });
 }
 
-const gridOptions: VxeGridProps<RowType> = {
+const gridOptions: VxeGridProps<User> = {
   checkboxConfig: {
     highlight: true,
     labelField: 'name',
   },
   columns: [
-    { title: '序号', type: 'seq', width: 50 },
-    { field: 'category', title: 'Category', width: 100 },
+    { type: 'checkbox', width: 60 },
     {
-      field: 'imageUrl',
-      slots: { default: 'image-url' },
-      title: 'Image',
-      width: 100,
+      field: 'userName',
+      title: '名称',
+      minWidth: 80,
     },
     {
-      cellRender: { name: 'CellImage' },
-      field: 'imageUrl2',
-      title: 'Render Image',
-      width: 130,
+      field: 'nickName',
+      title: '昵称',
+      minWidth: 130,
+    },
+    // {
+    //   field: 'avatar',
+    //   title: '头像',
+    //   slots: { default: 'avatar' },
+    //   minWidth: 80,
+    // },
+    {
+      field: 'deptName',
+      title: '部门',
+      minWidth: 120,
     },
     {
-      field: 'open',
-      slots: { default: 'open' },
-      title: 'Open',
-      width: 100,
+      field: 'phonenumber',
+      title: '手机号',
+      formatter({ cellValue }) {
+        return cellValue || '暂无';
+      },
+      minWidth: 120,
     },
     {
       field: 'status',
+      title: '状态',
       slots: { default: 'status' },
-      title: 'Status',
-      width: 100,
-    },
-    { field: 'color', title: 'Color', width: 100 },
-    { field: 'productName', title: 'Product Name', width: 200 },
-    { field: 'price', title: 'Price', width: 100 },
-    {
-      field: 'releaseDate',
-      formatter: 'formatDateTime',
-      title: 'Date',
-      width: 200,
+      minWidth: 100,
     },
     {
-      cellRender: { name: 'CellLink', props: { text: '编辑' } },
+      field: 'createTime',
+      title: '创建时间',
+      minWidth: 150,
+    },
+    {
       field: 'action',
       fixed: 'right',
+      slots: { default: 'action' },
       title: '操作',
-      width: 120,
+      resizable: false,
+      width: 180,
     },
   ],
   height: 'auto',
@@ -146,11 +142,10 @@ const gridOptions: VxeGridProps<RowType> = {
   pagerConfig: {},
   proxyConfig: {
     ajax: {
-      query: async ({ page }, formValues = {}) => {
+      query: async ({ page }) => {
         return await userList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
-          ...formValues,
         });
       },
     },
