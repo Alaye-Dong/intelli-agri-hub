@@ -4,11 +4,13 @@ import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { User } from '#/api/system/users/model';
 
 import { Page } from '@vben/common-ui';
+import { preferences } from '@vben/preferences';
 
-import { Button, Image, message, Switch, Tag } from 'ant-design-vue';
+import { Avatar, Button, message } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { userList } from '#/api/system/users';
+import { TableSwitch } from '#/components/table';
 
 // 搜索表单
 const formOptions: VbenFormProps = {
@@ -98,12 +100,12 @@ const gridOptions: VxeGridProps<User> = {
       title: '昵称',
       minWidth: 130,
     },
-    // {
-    //   field: 'avatar',
-    //   title: '头像',
-    //   slots: { default: 'avatar' },
-    //   minWidth: 80,
-    // },
+    {
+      field: 'avatar',
+      title: '头像',
+      slots: { default: 'avatar' },
+      minWidth: 80,
+    },
     {
       field: 'deptName',
       title: '部门',
@@ -158,15 +160,18 @@ const [Grid] = useVbenVxeGrid({ formOptions, gridOptions });
 <template>
   <Page auto-content-height>
     <Grid>
-      <template #image-url="{ row }">
-        <Image :src="row.imageUrl" height="30" width="30" />
+      <template #avatar="{ row }">
+        <!-- 可能要判断空字符串情况 所以没有使用?? -->
+        <Avatar :src="row.avatar || preferences.app.defaultAvatar" />
       </template>
-      <template #open="{ row }">
-        <Switch v-model:checked="row.open" />
-      </template>
+
       <template #status="{ row }">
-        <Tag :color="row.color">{{ row.status }}</Tag>
+        <!-- <TableSwitch v-model="row.status" :api="() => userStatusChange(row)" :disabled="row.userId === 1 || !hasAccessByCodes(['system:user:edit'])
+          " :reload="() => tableApi.query()" /> -->
+        <!-- TODO 绑定TableSwitch相关api -->
+        <TableSwitch v-model="row.status" />
       </template>
+
       <template #action>
         <Button type="link">编辑</Button>
       </template>
