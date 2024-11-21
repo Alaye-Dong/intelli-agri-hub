@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { Recordable } from '@vben/types';
+
 import type { VbenFormProps } from '#/adapter/form';
 import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { User } from '#/api/system/users/model';
@@ -11,6 +13,18 @@ import { Avatar, Button, message, Space } from 'ant-design-vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { userList } from '#/api/system/users';
 import { TableSwitch } from '#/components/table';
+
+import userDrawer from './user-drawer.vue';
+
+const [UserDrawer, userDrawerApi] = useVbenDrawer({
+  // 连接抽离的组件
+  connectedComponent: userDrawer,
+});
+
+function handleEdit(row: Recordable<any>) {
+  userDrawerApi.setData({ id: row.userId });
+  userDrawerApi.open();
+}
 
 // 搜索表单
 const formOptions: VbenFormProps = {
@@ -155,7 +169,6 @@ const gridOptions: VxeGridProps<User> = {
 };
 
 const [Grid] = useVbenVxeGrid({ formOptions, gridOptions });
-const [Drawer, drawerApi] = useVbenDrawer();
 </script>
 
 <template>
@@ -173,13 +186,13 @@ const [Drawer, drawerApi] = useVbenDrawer();
         <TableSwitch v-model="row.status" />
       </template>
 
-      <template #action>
+      <template #action="{ row }">
         <Space>
           <Button
             ghost
             size="small"
             type="primary"
-            @click="() => drawerApi.open()"
+            @click.stop="handleEdit(row)"
           >
             编辑
           </Button>
@@ -187,6 +200,6 @@ const [Drawer, drawerApi] = useVbenDrawer();
         </Space>
       </template>
     </Grid>
-    <Drawer class="w-[600px]" title="基础示例"> drawer content </Drawer>
+    <UserDrawer />
   </Page>
 </template>
