@@ -3,10 +3,10 @@ import type { VbenFormProps } from '#/adapter/form';
 import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { User } from '#/api/system/users/model';
 
-import { Page } from '@vben/common-ui';
+import { Page, useVbenDrawer } from '@vben/common-ui';
 import { preferences } from '@vben/preferences';
 
-import { Avatar, Button, message } from 'ant-design-vue';
+import { Avatar, Button, message, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { userList } from '#/api/system/users';
@@ -155,6 +155,7 @@ const gridOptions: VxeGridProps<User> = {
 };
 
 const [Grid] = useVbenVxeGrid({ formOptions, gridOptions });
+const [Drawer, drawerApi] = useVbenDrawer();
 </script>
 
 <template>
@@ -173,8 +174,19 @@ const [Grid] = useVbenVxeGrid({ formOptions, gridOptions });
       </template>
 
       <template #action>
-        <Button type="link">编辑</Button>
+        <Space>
+          <Button
+            ghost
+            size="small"
+            type="primary"
+            @click="() => drawerApi.open()"
+          >
+            编辑
+          </Button>
+          <Button danger ghost size="small">删除</Button>
+        </Space>
       </template>
     </Grid>
+    <Drawer class="w-[600px]" title="基础示例"> drawer content </Drawer>
   </Page>
 </template>
