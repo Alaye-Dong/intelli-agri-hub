@@ -1,8 +1,10 @@
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
+import { DictEnum } from '@vben/constants';
 import { getPopupContainer } from '@vben/utils';
 
 import { type FormSchemaGetter, z } from '#/adapter/form';
+import { getDictOptions } from '#/utils/dict';
 
 // 查询表单
 export const querySchema: FormSchemaGetter = () => [
@@ -135,30 +137,30 @@ export const drawerSchema: FormSchemaGetter = () => [
      */
     rules: z.string().email('请输入正确的邮箱').optional().or(z.literal('')),
   },
-  //   {
-  //       component: 'RadioGroup',
-  //       componentProps: {
-  //           buttonStyle: 'solid',
-  //           options: getDictOptions(DictEnum.SYS_USER_SEX),
-  //           optionType: 'button',
-  //       },
-  //       defaultValue: '0',
-  //       fieldName: 'sex',
-  //       formItemClass: 'col-span-2 lg:col-span-1',
-  //       label: '性别',
-  //   },
-  //   {
-  //       component: 'RadioGroup',
-  //       componentProps: {
-  //           buttonStyle: 'solid',
-  //           options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
-  //           optionType: 'button',
-  //       },
-  //       defaultValue: '0',
-  //       fieldName: 'status',
-  //       formItemClass: 'col-span-2 lg:col-span-1',
-  //       label: '状态',
-  //   },
+  {
+    component: 'RadioGroup',
+    componentProps: {
+      buttonStyle: 'solid',
+      options: getDictOptions(DictEnum.SYS_USER_SEX),
+      optionType: 'button',
+    },
+    defaultValue: '0',
+    fieldName: 'sex',
+    formItemClass: 'col-span-2 lg:col-span-1',
+    label: '性别',
+  },
+  {
+    component: 'RadioGroup',
+    componentProps: {
+      buttonStyle: 'solid',
+      options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
+      optionType: 'button',
+    },
+    defaultValue: '0',
+    fieldName: 'status',
+    formItemClass: 'col-span-2 lg:col-span-1',
+    label: '状态',
+  },
   {
     component: 'Select',
     componentProps: {
