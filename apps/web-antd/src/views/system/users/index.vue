@@ -14,6 +14,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { userList } from '#/api/system/users';
 import { TableSwitch } from '#/components/table';
 
+import { columns, querySchema } from './data';
 import userDrawer from './user-drawer.vue';
 
 const [UserDrawer, userDrawerApi] = useVbenDrawer({
@@ -32,56 +33,7 @@ const formOptions: VbenFormProps = {
   collapsed: false,
   // 提交函数
   handleSubmit: onSubmit,
-  schema: [
-    {
-      component: 'Input',
-      componentProps: {
-        placeholder: 'Please enter category',
-      },
-      fieldName: 'category',
-      label: 'Category',
-    },
-    {
-      component: 'Input',
-      componentProps: {
-        placeholder: 'Please enter productName',
-      },
-      fieldName: 'productName',
-      label: 'ProductName',
-    },
-    {
-      component: 'Input',
-      componentProps: {
-        placeholder: 'Please enter price',
-      },
-      fieldName: 'price',
-      label: 'Price',
-    },
-    {
-      component: 'Select',
-      componentProps: {
-        allowClear: true,
-        options: [
-          {
-            label: 'Color1',
-            value: '1',
-          },
-          {
-            label: 'Color2',
-            value: '2',
-          },
-        ],
-        placeholder: '请选择',
-      },
-      fieldName: 'color',
-      label: 'Color',
-    },
-    {
-      component: 'DatePicker',
-      fieldName: 'datePicker',
-      label: 'Date',
-    },
-  ],
+  schema: querySchema(),
   // 控制表单是否显示折叠按钮
   showCollapseButton: true,
   submitButtonOptions: {
@@ -103,57 +55,7 @@ const gridOptions: VxeGridProps<User> = {
     highlight: true,
     labelField: 'name',
   },
-  columns: [
-    { type: 'checkbox', width: 60 },
-    {
-      field: 'userName',
-      title: '名称',
-      minWidth: 80,
-    },
-    {
-      field: 'nickName',
-      title: '昵称',
-      minWidth: 130,
-    },
-    {
-      field: 'avatar',
-      title: '头像',
-      slots: { default: 'avatar' },
-      minWidth: 80,
-    },
-    {
-      field: 'deptName',
-      title: '部门',
-      minWidth: 120,
-    },
-    {
-      field: 'phonenumber',
-      title: '手机号',
-      formatter({ cellValue }) {
-        return cellValue || '暂无';
-      },
-      minWidth: 120,
-    },
-    {
-      field: 'status',
-      title: '状态',
-      slots: { default: 'status' },
-      minWidth: 100,
-    },
-    {
-      field: 'createTime',
-      title: '创建时间',
-      minWidth: 150,
-    },
-    {
-      field: 'action',
-      fixed: 'right',
-      slots: { default: 'action' },
-      title: '操作',
-      resizable: false,
-      width: 180,
-    },
-  ],
+  columns,
   height: 'auto',
   keepSource: true,
   pagerConfig: {},

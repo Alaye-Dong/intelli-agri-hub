@@ -8,6 +8,8 @@ import { message } from 'ant-design-vue';
 import { useVbenForm } from '#/adapter/form';
 import { findUserInfo } from '#/api/system/users';
 
+import { drawerSchema } from './data';
+
 const data = ref();
 
 const [BaseForm, formApi] = useVbenForm({
@@ -23,28 +25,7 @@ const [BaseForm, formApi] = useVbenForm({
   // 垂直布局，label和input在不同行，值为vertical
   // 水平布局，label和input在同一行
   layout: 'horizontal',
-  schema: [
-    {
-      // 组件需要在 #/adapter.ts内注册，并加上类型
-      component: 'Input',
-      // 对应组件的参数
-      componentProps: {
-        placeholder: '请输入用户名',
-      },
-      // 字段名
-      fieldName: 'userName',
-      // 界面显示的label
-      label: '用户名',
-    },
-    {
-      component: 'InputPassword',
-      componentProps: {
-        placeholder: '请输入密码',
-      },
-      fieldName: 'password',
-      label: '密码',
-    },
-  ],
+  schema: drawerSchema(),
   wrapperClass: 'grid-cols-1',
   showDefaultActions: false, // 不显示表单默认操作按钮
 });
