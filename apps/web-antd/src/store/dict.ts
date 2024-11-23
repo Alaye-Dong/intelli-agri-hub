@@ -35,6 +35,7 @@ export const useDictStore = defineStore('app-dict', () => {
    * 主要解决多次请求重复api的问题(不能用abortController 会导致除了第一个其他的获取的全为空)
    * 比如在一个页面 index表单 modal drawer总共会请求三次 但是获取的都是一样的数据
    * 相当于加锁 保证只有第一次请求的结果能拿到
+   * note 此处将Vben Admin Plus中原来的Promise<DictData[] | void>改为了Promise<DictData[] | undefined>
    */
   const dictRequestCache = reactive(
     new Map<string, Promise<DictData[] | undefined>>(),

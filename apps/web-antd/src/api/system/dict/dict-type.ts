@@ -31,6 +31,7 @@ export function dictTypeExport(data: any) {
   return commonExport(Api.dictTypeExport, data);
 }
 
+// TODO 待合并功能
 // /**
 //  * 删除字典类型
 //  * @param dictIds 字典类型id数组
