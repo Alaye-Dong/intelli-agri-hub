@@ -4,6 +4,7 @@ import { getPopupContainer } from '@vben/utils';
 
 import { type FormSchemaGetter, z } from '#/adapter/form';
 
+// 查询表单
 export const querySchema: FormSchemaGetter = () => [
   {
     component: 'Input',
@@ -27,6 +28,7 @@ export const querySchema: FormSchemaGetter = () => [
   },
 ];
 
+// 表格列
 export const columns: VxeGridProps['columns'] = [
   { type: 'checkbox', width: 60 },
   {
@@ -79,6 +81,7 @@ export const columns: VxeGridProps['columns'] = [
   },
 ];
 
+// 编辑抽屉表单
 export const drawerSchema: FormSchemaGetter = () => [
   {
     component: 'Input',
@@ -92,12 +95,6 @@ export const drawerSchema: FormSchemaGetter = () => [
     component: 'Input',
     fieldName: 'userName',
     label: '用户账号',
-    rules: 'required',
-  },
-  {
-    component: 'InputPassword',
-    fieldName: 'password',
-    label: '用户密码',
     rules: 'required',
   },
   {
@@ -138,30 +135,30 @@ export const drawerSchema: FormSchemaGetter = () => [
      */
     rules: z.string().email('请输入正确的邮箱').optional().or(z.literal('')),
   },
-  // {
-  //     component: 'RadioGroup',
-  //     componentProps: {
-  //         buttonStyle: 'solid',
-  //         options: getDictOptions(DictEnum.SYS_USER_SEX),
-  //         optionType: 'button',
-  //     },
-  //     defaultValue: '0',
-  //     fieldName: 'sex',
-  //     formItemClass: 'col-span-2 lg:col-span-1',
-  //     label: '性别',
-  // },
-  // {
-  //     component: 'RadioGroup',
-  //     componentProps: {
-  //         buttonStyle: 'solid',
-  //         options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
-  //         optionType: 'button',
-  //     },
-  //     defaultValue: '0',
-  //     fieldName: 'status',
-  //     formItemClass: 'col-span-2 lg:col-span-1',
-  //     label: '状态',
-  // },
+  //   {
+  //       component: 'RadioGroup',
+  //       componentProps: {
+  //           buttonStyle: 'solid',
+  //           options: getDictOptions(DictEnum.SYS_USER_SEX),
+  //           optionType: 'button',
+  //       },
+  //       defaultValue: '0',
+  //       fieldName: 'sex',
+  //       formItemClass: 'col-span-2 lg:col-span-1',
+  //       label: '性别',
+  //   },
+  //   {
+  //       component: 'RadioGroup',
+  //       componentProps: {
+  //           buttonStyle: 'solid',
+  //           options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
+  //           optionType: 'button',
+  //       },
+  //       defaultValue: '0',
+  //       fieldName: 'status',
+  //       formItemClass: 'col-span-2 lg:col-span-1',
+  //       label: '状态',
+  //   },
   {
     component: 'Select',
     componentProps: {
