@@ -35,3 +35,19 @@ export interface User {
   postIds?: number[]; // 岗位ID列表（可选）
   roleId: string; // 主要角色ID
 }
+
+/**
+ * @description 用户信息
+ * @param user 用户个人信息
+ * @param roleIds 角色IDS 不传id为空
+ * @param roles 所有的角色
+ * @param postIds 岗位IDS 不传id为空
+ * @param posts 所有的岗位
+ */
+export interface UserInfoResponse {
+  user?: User;
+  roleIds?: string[];
+  roles: Role[];
+  postIds?: number[];
+  posts?: Post[];
+}

@@ -6,24 +6,11 @@ import { useVbenDrawer } from '@vben/common-ui';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
+import { findUserInfo } from '#/api/system/users';
 
 const data = ref();
 
-const [Drawer, drawerApi] = useVbenDrawer({
-  onCancel() {
-    drawerApi.close();
-  },
-  onConfirm() {
-    // console.info('onConfirm');
-  },
-  onOpenChange(isOpen: boolean) {
-    if (isOpen) {
-      data.value = drawerApi.getData<Record<string, any>>();
-    }
-  },
-});
-
-const [BaseForm] = useVbenForm({
+const [BaseForm, formApi] = useVbenForm({
   // 所有表单项共用，可单独在表单内覆盖
   commonConfig: {
     // 所有表单项
@@ -45,9 +32,9 @@ const [BaseForm] = useVbenForm({
         placeholder: '请输入用户名',
       },
       // 字段名
-      fieldName: 'username',
+      fieldName: 'userName',
       // 界面显示的label
-      label: '字符串',
+      label: '用户名',
     },
     {
       component: 'InputPassword',
@@ -57,186 +44,32 @@ const [BaseForm] = useVbenForm({
       fieldName: 'password',
       label: '密码',
     },
-    {
-      component: 'InputNumber',
-      componentProps: {
-        placeholder: '请输入',
-      },
-      fieldName: 'number',
-      label: '数字(带后缀)',
-      suffix: () => '¥',
-    },
-    {
-      component: 'Select',
-      componentProps: {
-        allowClear: true,
-        filterOption: true,
-        options: [
-          {
-            label: '选项1',
-            value: '1',
-          },
-          {
-            label: '选项2',
-            value: '2',
-          },
-        ],
-        placeholder: '请选择',
-        showSearch: true,
-      },
-      fieldName: 'options',
-      label: '下拉选',
-    },
-    {
-      component: 'RadioGroup',
-      componentProps: {
-        options: [
-          {
-            label: '选项1',
-            value: '1',
-          },
-          {
-            label: '选项2',
-            value: '2',
-          },
-        ],
-      },
-      fieldName: 'radioGroup',
-      label: '单选组',
-    },
-    {
-      component: 'Radio',
-      fieldName: 'radio',
-      label: '',
-      renderComponentContent: () => {
-        return {
-          default: () => ['Radio'],
-        };
-      },
-    },
-    {
-      component: 'CheckboxGroup',
-      componentProps: {
-        name: 'cname',
-        options: [
-          {
-            label: '选项1',
-            value: '1',
-          },
-          {
-            label: '选项2',
-            value: '2',
-          },
-        ],
-      },
-      fieldName: 'checkboxGroup',
-      label: '多选组',
-    },
-    {
-      component: 'Checkbox',
-      fieldName: 'checkbox',
-      label: '',
-      renderComponentContent: () => {
-        return {
-          default: () => ['我已阅读并同意'],
-        };
-      },
-    },
-    {
-      component: 'Mentions',
-      componentProps: {
-        options: [
-          {
-            label: 'afc163',
-            value: 'afc163',
-          },
-          {
-            label: 'zombieJ',
-            value: 'zombieJ',
-          },
-        ],
-        placeholder: '请输入',
-      },
-      fieldName: 'mentions',
-      label: '提及',
-    },
-    {
-      component: 'Rate',
-      fieldName: 'rate',
-      label: '评分',
-    },
-    {
-      component: 'Switch',
-      componentProps: {
-        class: 'w-auto',
-      },
-      fieldName: 'switch',
-      label: '开关',
-    },
-    {
-      component: 'DatePicker',
-      fieldName: 'datePicker',
-      label: '日期选择框',
-    },
-    {
-      component: 'RangePicker',
-      fieldName: 'rangePicker',
-      label: '范围选择器',
-    },
-    {
-      component: 'TimePicker',
-      fieldName: 'timePicker',
-      label: '时间选择框',
-    },
-    {
-      component: 'TreeSelect',
-      componentProps: {
-        allowClear: true,
-        placeholder: '请选择',
-        showSearch: true,
-        treeData: [
-          {
-            label: 'root 1',
-            value: 'root 1',
-            children: [
-              {
-                label: 'parent 1',
-                value: 'parent 1',
-                children: [
-                  {
-                    label: 'parent 1-0',
-                    value: 'parent 1-0',
-                    children: [
-                      {
-                        label: 'my leaf',
-                        value: 'leaf1',
-                      },
-                      {
-                        label: 'your leaf',
-                        value: 'leaf2',
-                      },
-                    ],
-                  },
-                  {
-                    label: 'parent 1-1',
-                    value: 'parent 1-1',
-                  },
-                ],
-              },
-              {
-                label: 'parent 2',
-                value: 'parent 2',
-              },
-            ],
-          },
-        ],
-        treeNodeFilterProp: 'label',
-      },
-      fieldName: 'treeSelect',
-      label: '树选择',
-    },
   ],
   wrapperClass: 'grid-cols-1',
+  showDefaultActions: false, // 不显示表单默认操作按钮
+});
+
+const [Drawer, drawerApi] = useVbenDrawer({
+  onCancel() {
+    drawerApi.close();
+  },
+  onConfirm() {
+    // console.info('onConfirm');
+  },
+  async onOpenChange(isOpen: boolean) {
+    if (isOpen) {
+      // data.value = drawerApi.getData<Record<string, any>>();
+    }
+    const { id } = drawerApi.getData() as { id?: number | string };
+    // 更新 && 赋值
+    const { user } = await findUserInfo(id);
+    if (user) {
+      formApi.setValues(user);
+      data.value = user;
+    } else {
+      message.warning('用户信息未找到');
+    }
+  },
 });
 
 function onSubmit(values: Record<string, any>) {
@@ -248,7 +81,7 @@ function onSubmit(values: Record<string, any>) {
 
 <template>
   <Drawer title="数据共享示例">
-    <div class="flex-col-center">外部传递数据： {{ data.id }}</div>
+    <div class="flex-col-center">外部传递数据： {{ data }}</div>
     <BaseForm />
   </Drawer>
 </template>
