@@ -1,6 +1,6 @@
 import type { User, UserInfoResponse } from './model';
 
-import type { ID, PageQuery, PageResult } from '#/api/common';
+import type { ID, IDS, PageQuery, PageResult } from '#/api/common';
 
 import { requestClient } from '#/api/request';
 
@@ -27,4 +27,13 @@ export function userList(params?: PageQuery) {
 export function findUserInfo(userId?: ID) {
   const url = userId ? `${API.root}/${userId}` : `${API.root}/`;
   return requestClient.get<UserInfoResponse>(url);
+}
+
+/**
+ * 删除用户
+ * @param userIds 用户ID数组
+ * @returns void
+ */
+export function userRemove(userIds: IDS) {
+  return requestClient.delete<null>(`${API.root}/${userIds}`);
 }

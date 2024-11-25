@@ -8,10 +8,10 @@ import type { User } from '#/api/system/users/model';
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { preferences } from '@vben/preferences';
 
-import { Avatar, Button, message, Space } from 'ant-design-vue';
+import { Avatar, Button, message, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { userList } from '#/api/system/users';
+import { userList, userRemove } from '#/api/system/users';
 import { TableSwitch } from '#/components/table';
 
 import { columns, querySchema } from './data';
@@ -21,11 +21,6 @@ const [UserDrawer, userDrawerApi] = useVbenDrawer({
   // 连接抽离的组件
   connectedComponent: userDrawer,
 });
-
-function handleEdit(row: Recordable<any>) {
-  userDrawerApi.setData({ id: row.userId });
-  userDrawerApi.open();
-}
 
 // 搜索表单
 const formOptions: VbenFormProps = {
@@ -71,12 +66,22 @@ const gridOptions: VxeGridProps<User> = {
   },
 };
 
-const [Grid] = useVbenVxeGrid({ formOptions, gridOptions });
+const [BasicTable, tableApi] = useVbenVxeGrid({ formOptions, gridOptions });
+
+function handleEdit(row: Recordable<any>) {
+  userDrawerApi.setData({ id: row.userId });
+  userDrawerApi.open();
+}
+
+async function handleDelete(row: Recordable<any>) {
+  await userRemove(row.userId);
+  await tableApi.query();
+}
 </script>
 
 <template>
   <Page auto-content-height>
-    <Grid>
+    <BasicTable>
       <template #avatar="{ row }">
         <!-- 可能要判断空字符串情况 所以没有使用?? -->
         <Avatar :src="row.avatar || preferences.app.defaultAvatar" />
@@ -99,10 +104,16 @@ const [Grid] = useVbenVxeGrid({ formOptions, gridOptions });
           >
             编辑
           </Button>
-          <Button danger ghost size="small">删除</Button>
+          <Popconfirm
+            placement="left"
+            title="确认删除？"
+            @confirm="handleDelete(row)"
+          >
+            <Button danger ghost size="small">删除</Button>
+          </Popconfirm>
         </Space>
       </template>
-    </Grid>
+    </BasicTable>
     <UserDrawer />
   </Page>
 </template>
