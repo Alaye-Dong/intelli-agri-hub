@@ -1,5 +1,6 @@
 export enum DictEnum {
   SYS_COMMON_STATUS = 'sys_common_status',
+  // TODO 待实现以下API
   SYS_DEVICE_TYPE = 'sys_device_type', // 设备类型
   SYS_GRANT_TYPE = 'sys_grant_type', // 授权类型
   SYS_NORMAL_DISABLE = 'sys_normal_disable',
