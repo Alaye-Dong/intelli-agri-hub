@@ -6,11 +6,15 @@ import { requestClient } from '#/api/request';
 
 enum API {
   root = '/system/user',
+  userAdd = '/system/user/add',
+  userInfo = '/system/user/get',
   userList = '/system/user/list',
+  userRemove = '/system/user/remove',
+  userUpdate = '/system/user/update',
 }
 
 /**
- *  获取用户列表
+ * 获取用户列表
  * @param params
  * @returns User
  */
@@ -25,7 +29,7 @@ export function userList(params?: PageQuery) {
  * @returns 用户信息
  */
 export function findUserInfo(userId?: ID) {
-  const url = userId ? `${API.root}/${userId}` : `${API.root}/`;
+  const url = userId ? `${API.userInfo}/${userId}` : API.userInfo;
   return requestClient.get<UserInfoResponse>(url);
 }
 
@@ -35,7 +39,7 @@ export function findUserInfo(userId?: ID) {
  * @returns void
  */
 export function userAdd(data: any) {
-  return requestClient.post<null>(API.root, data);
+  return requestClient.post<null>(API.userAdd, data);
 }
 
 /**
@@ -44,7 +48,7 @@ export function userAdd(data: any) {
  * @returns void
  */
 export function userUpdate(data: any) {
-  return requestClient.put<null>(API.root, data);
+  return requestClient.put<null>(API.userUpdate, data);
 }
 
 /**
@@ -53,5 +57,5 @@ export function userUpdate(data: any) {
  * @returns void
  */
 export function userRemove(userIds: IDS) {
-  return requestClient.delete<null>(`${API.root}/${userIds}`);
+  return requestClient.delete<null>(`${API.userRemove}/${userIds}`);
 }
