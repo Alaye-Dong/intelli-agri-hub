@@ -30,6 +30,24 @@ export function findUserInfo(userId?: ID) {
 }
 
 /**
+ * 新增用户
+ * @param data data
+ * @returns void
+ */
+export function userAdd(data: any) {
+  return requestClient.post<null>(API.root, data);
+}
+
+/**
+ * 更新用户
+ * @param data data
+ * @returns void
+ */
+export function userUpdate(data: any) {
+  return requestClient.put<null>(API.root, data);
+}
+
+/**
  * 删除用户
  * @param userIds 用户ID数组
  * @returns void
