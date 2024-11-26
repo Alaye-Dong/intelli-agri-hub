@@ -58,6 +58,10 @@
 │           └── sustainability   // 可持续农业
 ```
 
+## Apifox 版本
+
+- alpha-0.1.0 : 完成User基本增删改查API结构。对应提交：4561146eac98107417f7791913a82b9b417b794a
+
 ## 参考项目
 
 [ruoyi-plus-vben5](https://gitee.com/dapppp/ruoyi-plus-vben5)
