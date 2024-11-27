@@ -11,7 +11,7 @@ import { preferences } from '@vben/preferences';
 import { Avatar, Button, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { userList, userRemove } from '#/api/system/users';
+import { userList, userRemove, userStatusChange } from '#/api/system/users';
 import { TableSwitch } from '#/components/table';
 
 import { columns, querySchema } from './data';
@@ -83,7 +83,11 @@ async function handleDelete(row: Recordable<any>) {
         <!-- <TableSwitch v-model="row.status" :api="() => userStatusChange(row)" :disabled="row.userId === 1 || !hasAccessByCodes(['system:user:edit'])
           " :reload="() => tableApi.query()" /> -->
         <!-- TODO 绑定TableSwitch相关api -->
-        <TableSwitch v-model="row.status" />
+        <TableSwitch
+          v-model="row.status"
+          :api="() => userStatusChange(row)"
+          :reload="() => tableApi.query()"
+        />
       </template>
 
       <template #action="{ row }">

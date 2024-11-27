@@ -10,6 +10,7 @@ enum API {
   userInfo = '/system/user/get',
   userList = '/system/user/list',
   userRemove = '/system/user/remove',
+  userStatusChange = '/system/user/changeStatus',
   userUpdate = '/system/user/update',
 }
 
@@ -49,6 +50,15 @@ export function userAdd(data: any) {
  */
 export function userUpdate(data: any) {
   return requestClient.put<null>(API.userUpdate, data);
+}
+
+/**
+ * 更新用户状态
+ * @param data data
+ * @returns void
+ */
+export function userStatusChange(data: any) {
+  return requestClient.put<null>(API.userStatusChange, data);
 }
 
 /**
