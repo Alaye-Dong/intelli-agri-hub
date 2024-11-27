@@ -39,8 +39,15 @@ const [Drawer, drawerApi] = useVbenDrawer({
   onCancel: handleCancel,
   onConfirm: handleConfirm,
   async onOpenChange(isOpen: boolean) {
-    if (isOpen) {
-      // data.value = drawerApi.getData<Record<string, any>>();
+    if (!isOpen) {
+      // 需要重置岗位选择
+      formApi.updateSchema([
+        {
+          componentProps: { options: [], placeholder: '请先选择部门' },
+          fieldName: 'postIds',
+        },
+      ]);
+      return null;
     }
     const { id } = drawerApi.getData() as { id?: number | string };
     isUpdate.value = !!id;
@@ -89,7 +96,6 @@ async function handleConfirm() {
     return;
   }
   const data = cloneDeep(await formApi.getValues());
-  // FIXME 更新和添加Mock接口
   await (isUpdate.value ? userUpdate(data) : userAdd(data));
   await handleCancel();
 }

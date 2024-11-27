@@ -8,7 +8,7 @@ import type { User } from '#/api/system/users/model';
 import { Page, useVbenDrawer } from '@vben/common-ui';
 import { preferences } from '@vben/preferences';
 
-import { Avatar, Button, message, Popconfirm, Space } from 'ant-design-vue';
+import { Avatar, Button, Popconfirm, Space } from 'ant-design-vue';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { userList, userRemove } from '#/api/system/users';
@@ -26,8 +26,6 @@ const [UserDrawer, userDrawerApi] = useVbenDrawer({
 const formOptions: VbenFormProps = {
   // 默认展开
   collapsed: false,
-  // 提交函数
-  handleSubmit: onSubmit,
   schema: querySchema(),
   // 控制表单是否显示折叠按钮
   showCollapseButton: true,
@@ -37,13 +35,6 @@ const formOptions: VbenFormProps = {
   // 按下回车时是否提交表单
   submitOnEnter: false,
 };
-
-// 搜索表单提交按钮
-function onSubmit(values: Record<string, any>) {
-  message.success({
-    content: `form values: ${JSON.stringify(values)}`,
-  });
-}
 
 const gridOptions: VxeGridProps<User> = {
   checkboxConfig: {
@@ -56,10 +47,11 @@ const gridOptions: VxeGridProps<User> = {
   pagerConfig: {},
   proxyConfig: {
     ajax: {
-      query: async ({ page }) => {
+      query: async ({ page }, formValues = {}) => {
         return await userList({
           pageNum: page.currentPage,
           pageSize: page.pageSize,
+          ...formValues,
         });
       },
     },
