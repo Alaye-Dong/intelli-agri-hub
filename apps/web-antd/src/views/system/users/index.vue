@@ -56,6 +56,13 @@ const gridOptions: VxeGridProps<User> = {
       },
     },
   },
+  toolbarConfig: {
+    custom: true,
+    export: true,
+    // import: true,
+    refresh: true,
+    zoom: true,
+  },
 };
 
 const [BasicTable, tableApi] = useVbenVxeGrid({ formOptions, gridOptions });
@@ -74,6 +81,10 @@ async function handleDelete(row: Recordable<any>) {
 <template>
   <Page auto-content-height>
     <BasicTable>
+      <template #toolbar-tools>
+        <Button class="mr-2" type="primary"> 删除 </Button>
+        <Button type="primary"> 新增 </Button>
+      </template>
       <template #avatar="{ row }">
         <!-- 可能要判断空字符串情况 所以没有使用?? -->
         <Avatar :src="row.avatar || preferences.app.defaultAvatar" />

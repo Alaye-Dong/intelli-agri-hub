@@ -24,6 +24,15 @@ export const querySchema: FormSchemaGetter = () => [
     label: '手机号码',
   },
   {
+    component: 'Select',
+    componentProps: {
+      getPopupContainer,
+      options: getDictOptions(DictEnum.SYS_NORMAL_DISABLE),
+    },
+    fieldName: 'status',
+    label: '用户状态',
+  },
+  {
     component: 'RangePicker',
     fieldName: 'createTime',
     label: '创建时间',
