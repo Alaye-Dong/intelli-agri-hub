@@ -1,10 +1,11 @@
-import type { Recordable } from '@vben-core/typings';
 import type {
   FormState,
   GenericObject,
   ResetFormOpts,
   ValidationOptions,
 } from 'vee-validate';
+
+import type { Recordable } from '@vben-core/typings';
 
 import type { FormActions, FormSchema, VbenFormProps } from './types';
 
@@ -14,6 +15,8 @@ import { Store } from '@vben-core/shared/store';
 import {
   bindMethods,
   createMerge,
+  isDate,
+  isDayjsObject,
   isFunction,
   isObject,
   mergeWithArrayOverride,
@@ -43,19 +46,19 @@ function getDefaultState(): VbenFormProps {
 }
 
 export class FormApi {
-  // 最后一次点击提交时的表单值
-  private latestSubmissionValues: null | Recordable<any> = null;
-  private prevState: null | VbenFormProps = null;
-
   // private api: Pick<VbenFormProps, 'handleReset' | 'handleSubmit'>;
   public form = {} as FormActions;
   isMounted = false;
 
   public state: null | VbenFormProps = null;
-
   stateHandler: StateHandler;
 
   public store: Store<VbenFormProps>;
+
+  // 最后一次点击提交时的表单值
+  private latestSubmissionValues: null | Recordable<any> = null;
+
+  private prevState: null | VbenFormProps = null;
 
   constructor(options: VbenFormProps = {}) {
     const { ...storeState } = options;
@@ -81,40 +84,6 @@ export class FormApi {
     bindMethods(this);
   }
 
-  private async getForm() {
-    if (!this.isMounted) {
-      // 等待form挂载
-      await this.stateHandler.waitForCondition();
-    }
-    if (!this.form?.meta) {
-      throw new Error('<VbenForm /> is not mounted');
-    }
-    return this.form;
-  }
-
-  private updateState() {
-    const currentSchema = this.state?.schema ?? [];
-    const prevSchema = this.prevState?.schema ?? [];
-    // 进行了删除schema操作
-    if (currentSchema.length < prevSchema.length) {
-      const currentFields = new Set(
-        currentSchema.map((item) => item.fieldName),
-      );
-      const deletedSchema = prevSchema.filter(
-        (item) => !currentFields.has(item.fieldName),
-      );
-
-      for (const schema of deletedSchema) {
-        this.form?.setFieldValue(schema.fieldName, undefined);
-      }
-    }
-  }
-
-  // 如果需要多次更新状态，可以使用 batch 方法
-  batchStore(cb: () => void) {
-    this.store.batch(cb);
-  }
-
   getLatestSubmissionValues() {
     return this.latestSubmissionValues || {};
   }
@@ -126,6 +95,11 @@ export class FormApi {
   async getValues() {
     const form = await this.getForm();
     return form.values;
+  }
+
+  async isFieldValid(fieldName: string) {
+    const form = await this.getForm();
+    return form.isFieldValid(fieldName);
   }
 
   merge(formApi: FormApi) {
@@ -252,10 +226,19 @@ export class FormApi {
       return;
     }
 
+    /**
+     * 合并算法有待改进，目前的算法不支持object类型的值。
+     * antd的日期时间相关组件的值类型为dayjs对象
+     * element-plus的日期时间相关组件的值类型可能为Date对象
+     * 以上两种类型需要排除深度合并
+     */
     const fieldMergeFn = createMerge((obj, key, value) => {
       if (key in obj) {
         obj[key] =
-          !Array.isArray(obj[key]) && isObject(obj[key])
+          !Array.isArray(obj[key]) &&
+          isObject(obj[key]) &&
+          !isDayjsObject(obj[key]) &&
+          !isDate(obj[key])
             ? fieldMergeFn(obj[key], value)
             : value;
       }
@@ -336,5 +319,44 @@ export class FormApi {
       return;
     }
     return await this.submitForm();
+  }
+
+  async validateField(fieldName: string, opts?: Partial<ValidationOptions>) {
+    const form = await this.getForm();
+    const validateResult = await form.validateField(fieldName, opts);
+
+    if (Object.keys(validateResult?.errors ?? {}).length > 0) {
+      console.error('validate error', validateResult?.errors);
+    }
+    return validateResult;
+  }
+
+  private async getForm() {
+    if (!this.isMounted) {
+      // 等待form挂载
+      await this.stateHandler.waitForCondition();
+    }
+    if (!this.form?.meta) {
+      throw new Error('<VbenForm /> is not mounted');
+    }
+    return this.form;
+  }
+
+  private updateState() {
+    const currentSchema = this.state?.schema ?? [];
+    const prevSchema = this.prevState?.schema ?? [];
+    // 进行了删除schema操作
+    if (currentSchema.length < prevSchema.length) {
+      const currentFields = new Set(
+        currentSchema.map((item) => item.fieldName),
+      );
+      const deletedSchema = prevSchema.filter(
+        (item) => !currentFields.has(item.fieldName),
+      );
+
+      for (const schema of deletedSchema) {
+        this.form?.setFieldValue(schema.fieldName, undefined);
+      }
+    }
   }
 }
