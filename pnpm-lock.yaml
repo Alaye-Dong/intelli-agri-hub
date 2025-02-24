@@ -364,8 +364,8 @@ catalogs:
       specifier: ^6.0.1
       version: 6.0.1
     rollup:
-      specifier: ^4.25.0
-      version: 4.25.0
+      specifier: ^4.34.8
+      version: 4.34.8
     rollup-plugin-visualizer:
       specifier: ^5.14.0
       version: 5.14.0
@@ -1100,7 +1100,7 @@ importers:
     dependencies:
       '@intlify/unplugin-vue-i18n':
         specifier: 'catalog:'
-        version: 5.3.1(@vue/compiler-dom@3.5.13)(eslint@9.20.1(jiti@2.4.2))(rollup@4.25.0)(typescript@5.7.3)(vue-i18n@10.0.4(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))
+        version: 5.3.1(@vue/compiler-dom@3.5.13)(eslint@9.20.1(jiti@2.4.2))(rollup@4.34.8)(typescript@5.7.3)(vue-i18n@10.0.4(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))
       '@jspm/generator':
         specifier: 'catalog:'
         version: 2.5.1
@@ -1127,7 +1127,7 @@ importers:
         version: 0.21.1(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
       vite-plugin-vue-devtools:
         specifier: 'catalog:'
-        version: 7.7.2(rollup@4.25.0)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))(vue@3.5.13(typescript@5.7.3))
+        version: 7.7.2(rollup@4.34.8)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))(vue@3.5.13(typescript@5.7.3))
     devDependencies:
       '@pnpm/workspace.read-manifest':
         specifier: 'catalog:'
@@ -1155,10 +1155,10 @@ importers:
         version: 16.4.5
       rollup:
         specifier: 'catalog:'
-        version: 4.25.0
+        version: 4.34.8
       rollup-plugin-visualizer:
         specifier: 'catalog:'
-        version: 5.14.0(rollup@4.25.0)
+        version: 5.14.0(rollup@4.34.8)
       sass:
         specifier: 'catalog:'
         version: 1.85.0
@@ -1170,7 +1170,7 @@ importers:
         version: 0.5.1(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))
       vite-plugin-dts:
         specifier: 'catalog:'
-        version: 4.5.0(@types/node@22.9.0)(rollup@4.25.0)(typescript@5.7.3)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))
+        version: 4.5.0(@types/node@22.9.0)(rollup@4.34.8)(typescript@5.7.3)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))
       vite-plugin-html:
         specifier: 'catalog:'
         version: 3.2.2(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))
@@ -13330,13 +13330,13 @@ snapshots:
 
   '@intlify/shared@11.1.1': {}
 
-  '@intlify/unplugin-vue-i18n@5.3.1(@vue/compiler-dom@3.5.13)(eslint@9.20.1(jiti@2.4.2))(rollup@4.25.0)(typescript@5.7.3)(vue-i18n@10.0.4(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))':
+  '@intlify/unplugin-vue-i18n@5.3.1(@vue/compiler-dom@3.5.13)(eslint@9.20.1(jiti@2.4.2))(rollup@4.34.8)(typescript@5.7.3)(vue-i18n@10.0.4(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))':
     dependencies:
       '@eslint-community/eslint-utils': 4.4.1(eslint@9.20.1(jiti@2.4.2))
       '@intlify/bundle-utils': 9.0.0(vue-i18n@10.0.4(vue@3.5.13(typescript@5.7.3)))
       '@intlify/shared': 11.1.1
       '@intlify/vue-i18n-extensions': 7.0.0(@intlify/shared@11.1.1)(@vue/compiler-dom@3.5.13)(vue-i18n@10.0.4(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))
-      '@rollup/pluginutils': 5.1.3(rollup@4.25.0)
+      '@rollup/pluginutils': 5.1.3(rollup@4.34.8)
       '@typescript-eslint/scope-manager': 8.13.0
       '@typescript-eslint/typescript-estree': 8.13.0(typescript@5.7.3)
       debug: 4.3.7
@@ -13870,13 +13870,13 @@ snapshots:
     optionalDependencies:
       rollup: 4.24.4
 
-  '@rollup/pluginutils@5.1.3(rollup@4.25.0)':
+  '@rollup/pluginutils@5.1.3(rollup@4.34.8)':
     dependencies:
       '@types/estree': 1.0.6
       estree-walker: 2.0.2
       picomatch: 4.0.2
     optionalDependencies:
-      rollup: 4.25.0
+      rollup: 4.34.8
 
   '@rollup/pluginutils@5.1.4(rollup@2.79.2)':
     dependencies:
@@ -13893,14 +13893,6 @@ snapshots:
       picomatch: 4.0.2
     optionalDependencies:
       rollup: 4.24.4
-
-  '@rollup/pluginutils@5.1.4(rollup@4.25.0)':
-    dependencies:
-      '@types/estree': 1.0.6
-      estree-walker: 2.0.2
-      picomatch: 4.0.2
-    optionalDependencies:
-      rollup: 4.25.0
 
   '@rollup/pluginutils@5.1.4(rollup@4.34.8)':
     dependencies:
@@ -19646,14 +19638,14 @@ snapshots:
     optionalDependencies:
       rollup: 4.24.4
 
-  rollup-plugin-visualizer@5.14.0(rollup@4.25.0):
+  rollup-plugin-visualizer@5.14.0(rollup@4.34.8):
     dependencies:
       open: 8.4.2
       picomatch: 4.0.2
       source-map: 0.7.4
       yargs: 17.7.2
     optionalDependencies:
-      rollup: 4.25.0
+      rollup: 4.34.8
 
   rollup@2.79.2:
     optionalDependencies:
@@ -20909,10 +20901,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-dts@4.5.0(@types/node@22.9.0)(rollup@4.25.0)(typescript@5.7.3)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0)):
+  vite-plugin-dts@4.5.0(@types/node@22.9.0)(rollup@4.34.8)(typescript@5.7.3)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0)):
     dependencies:
       '@microsoft/api-extractor': 7.50.0(@types/node@22.9.0)
-      '@rollup/pluginutils': 5.1.4(rollup@4.25.0)
+      '@rollup/pluginutils': 5.1.4(rollup@4.34.8)
       '@volar/typescript': 2.4.11
       '@vue/language-core': 2.2.0(typescript@5.7.3)
       compare-versions: 6.1.1
@@ -20944,10 +20936,10 @@ snapshots:
       pathe: 0.2.0
       vite: 5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0)
 
-  vite-plugin-inspect@0.8.9(rollup@4.25.0)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0)):
+  vite-plugin-inspect@0.8.9(rollup@4.34.8)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0)):
     dependencies:
       '@antfu/utils': 0.7.10
-      '@rollup/pluginutils': 5.1.4(rollup@4.25.0)
+      '@rollup/pluginutils': 5.1.4(rollup@4.34.8)
       debug: 4.4.0(supports-color@9.4.0)
       error-stack-parser-es: 0.1.5
       fs-extra: 11.3.0
@@ -20962,9 +20954,9 @@ snapshots:
 
   vite-plugin-lazy-import@1.0.7:
     dependencies:
-      '@rollup/pluginutils': 5.1.3(rollup@4.25.0)
+      '@rollup/pluginutils': 5.1.3(rollup@4.34.8)
       es-module-lexer: 1.5.4
-      rollup: 4.25.0
+      rollup: 4.34.8
       xe-utils: 3.5.31
 
   vite-plugin-pwa@0.21.1(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))(workbox-build@7.3.0)(workbox-window@7.3.0):
@@ -20989,7 +20981,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-vue-devtools@7.7.2(rollup@4.25.0)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))(vue@3.5.13(typescript@5.7.3)):
+  vite-plugin-vue-devtools@7.7.2(rollup@4.34.8)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))(vue@3.5.13(typescript@5.7.3)):
     dependencies:
       '@vue/devtools-core': 7.7.2(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))(vue@3.5.13(typescript@5.7.3))
       '@vue/devtools-kit': 7.7.2
@@ -20997,7 +20989,7 @@ snapshots:
       execa: 9.5.2
       sirv: 3.0.0
       vite: 5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0)
-      vite-plugin-inspect: 0.8.9(rollup@4.25.0)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))
+      vite-plugin-inspect: 0.8.9(rollup@4.34.8)(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))
       vite-plugin-vue-inspector: 5.3.1(vite@5.4.11(@types/node@22.9.0)(less@4.2.2)(sass@1.85.0)(terser@5.36.0))
     transitivePeerDependencies:
       - '@nuxt/kit'
